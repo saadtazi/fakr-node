@@ -62,7 +62,7 @@ fakr.listen(3000, function() {
 
 All routes can have the following properties:
 
-* headers: a list of header names/headers values, like `Content-type`# ...
+* headers: a list of header names/headers values, like `Content-type`...
 Note that the default content type header value is application/json.
 * status: http response status code (default: 200)
 * url: the url, in an expressjs string format (no regexp for now)
@@ -95,7 +95,7 @@ The order of the list is important: if a route has a `string` and a `function`pr
 
 ## JSON Route Example
 
-Same as string routes, but forces the Content Type header (relies on expressjs response.json())
+This route forces the Content Type header (relies on expressjs response.json())
 ```
 {
   "url": "/api/test-json",
