@@ -39,7 +39,7 @@ function generate(json) {
 }
 
 function addOne(app, route) {
-  app[route.method](route.url, route.action);
+  app[route.method](route.url, _.bind(route.addHeaders, route), route.action);
 }
 
 function add(app, json) {

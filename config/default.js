@@ -3,9 +3,9 @@ module.exports = {
   "hasAdmin": true,
   "adminUrl": "/_admin",
   "defaults": {
-    "headers": [
-      {"content-type": "image/png"}
-    ],
+    "headers": {
+      "Content-Type": "image/png"
+    },
     "status": "200"
   }
 };

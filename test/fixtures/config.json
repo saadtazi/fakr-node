@@ -4,27 +4,28 @@
       "url": "/api/test-string",
       "string": "this is a string",
       "method": "get",
-      "header": "text/plain"
+      "headers": {
+        "Content-Type": "text/plain"
+      }
     },
     {
       "url": "/api/test-json",
       "json": {"prop1": "value1", "tags": ["news", "koko"]},
       "method": "get",
-      "header": "text/plain"
+      "headers": {
+        "Content-Type": "application/json"
+      }
     },
     {
       "url": "/api/test-function/:resource",
-      "method": "post",
+      "method": "get",
       "function": "res.send(req.params.resource)"
     },
     {
-      "url": "/api/test-crud",
-      "crud": true,
-      "id": "id",
-      "initialData": [
-        {"id": 1, "name": "yo mama"},
-        {"id": 2, "name": "yo mama 2"}
-      ]
+      "url": "/api/test-not-found",
+      "method": "get",
+      "string": "Nonono...",
+      "status": 404
     }
   ]
 }
