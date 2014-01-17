@@ -1,0 +1,27 @@
+{
+  "routes": [
+    {
+      "url": "/api/test-string",
+      "string": "this is a string",
+      "method": "get",
+      "header": "text/plain"
+    },
+    {
+      "url": "/api/test-json",
+      "json": {"prop1": "value1", "tags": ["news", "koko"]},
+      "method": "get",
+      "header": "application/json"
+    },
+    {
+      "url": "/api/test-function/:resource",
+      "method": "get",
+      "function": "res.send(req.params.resource)"
+    },
+    {
+      "url": "/api/test-not-found",
+      "method": "get",
+      "string": "Nonono...",
+      "status": 404
+    }
+  ]
+}
