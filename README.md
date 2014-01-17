@@ -2,7 +2,7 @@
 
 (name might change)
 
-Create a dynamic web server that generate static or dynamic responses based on json json configuration.
+Create a dynamic web server that generates static or dynamic responses based on json configuration.
 
 Routes can be added ~soon -> dynamically and~ at startup.
 
@@ -15,7 +15,8 @@ var config = require('config.json'),
 fakr.listen(3000, function() {
   console.log('fakr is listening on port 3000');
 });
-``
+
+```
 
 # Example of Configuration 
 
@@ -35,13 +36,12 @@ fakr.listen(3000, function() {
       "url": "/api/test-string",
       "string": "this is a string",
       "method": "get",
-      "header": "text/plain"
+      "headers": {"Content-Type": text/plain"}
     },
     {
       "url": "/api/test-json",
       "json": {"prop1": "value1", "tags": ["news", "koko"]},
-      "method": "get",
-      "header": "application/json"
+      "method": "get"
     },
     {
       "url": "/api/test-function/:resource",
@@ -50,7 +50,7 @@ fakr.listen(3000, function() {
     },
     {
       "url": "/api/test-not-found",
-      "method": "get",
+      "method": "post",
       "string": "Nonono...",
       "status": 404
     }
@@ -95,14 +95,12 @@ The order of the list is important: if a route has a `string` and a `function`pr
 
 ## JSON Route Example
 
+Same as string routes, but forces the Content Type header (relies on expressjs response.json())
 ```
 {
   "url": "/api/test-json",
   "json": {"prop1": "value1", "tags": ["news", "koko"]},
   "method": "post",
-  "headers": {
-    "Content-Type": "application/json"
-  },
   "status": 201
 }
 ```
