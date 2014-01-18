@@ -1,11 +1,12 @@
 module.exports = {
   // for all routes
   "hasAdmin": true,
-  "adminUrl": "/_admin",
+  "adminUrlPrefix": "/_admin",
   "defaults": {
     "headers": {
-      "Content-Type": "image/png"
+      "Content-Type": "application/json"
     },
-    "status": "200"
+    "status": "200",
+    "method": "get"
   }
 };

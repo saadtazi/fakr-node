@@ -1,11 +1,27 @@
 var express = require('express'),
     _ = require('lodash'),
-    adminSection = require('./routes/admin'),
+    adminRoutes = require('./routes/admin'),
     routeBuilder = require('./model/route_builder');
 
 module.exports = function(config) {
   var app = express();
-  config = _.extend(require('./config/default.js'), config || {});
+  config = _.merge(require('./config/default.js'), config || {});
+
+  app.fakrRoute = [];
+  app.addRoute = function(json) {
+    var mergedConfig = _.merge(_.clone(config.defaults), json);
+    console.log('adding route::', mergedConfig.url);
+    app.fakrRoute.push(routeBuilder.add(app, mergedConfig));
+  };
+
+  app.removeRoute = function(json) {
+    var mergedConfig = _.merge(_.clone(config.defaults), json);
+    console.log('removing route::', mergedConfig.url);
+
+    routeBuilder.remove(app, mergedConfig);
+  };
+
+  app.use(express.bodyParser());
 
   if (app.get('env') === 'development') {
     // simple logger
@@ -16,14 +32,13 @@ module.exports = function(config) {
   }
   if (config.routes) {
     _.each(config.routes, function(route) {
-      console.log('adding route::', _.extend({}, config.defaults, route));
-      routeBuilder.add(app, _.extend({}, config.defaults, route));
+      app.addRoute(route);
     });
   }
   if (config.hasAdmin) {
-    adminSection.addRoutes(app, config.adminUrl);
+    adminRoutes.add(app, config.adminUrlPrefix);
   }
-
+  console.log(app.routes);
   return app;
 
 };

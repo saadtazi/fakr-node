@@ -18,10 +18,12 @@ fakr.listen(3000, function() {
 
 ```
 
-# Example of Configuration 
+# Configuration
 
 ```
 {
+  "hasAdmin": true,
+  "adminUrlPrefix": "/_admin",
   defaults: {
     "headers": [
       "status": 201,
@@ -32,53 +34,55 @@ fakr.listen(3000, function() {
     ]
   },
   "routes": [
-    {
-      "url": "/api/test-string",
-      "string": "this is a string",
-      "method": "get",
-      "headers": {"Content-Type": text/plain"}
-    },
-    {
-      "url": "/api/test-json",
-      "json": {"prop1": "value1", "tags": ["news", "koko"]},
-      "method": "get"
-    },
-    {
-      "url": "/api/test-function/:resource",
-      "method": "get",
-      "function": "res.send(req.params.resource)"
-    },
-    {
-      "url": "/api/test-not-found",
-      "method": "post",
-      "string": "Nonono...",
-      "status": 404
-    }
+    ... see route configuration below...
   ]
 }
 ```
 
-# Route Definition
+# Config options
+
+## `hasAdmin`
+
+If true, adds 3 admin API routes:
+* one for listing routes: `GET adminUrlPrefix`/routes`
+* one for creating new routes: `POST adminUrlPrefix`/routes
+  * the json body should be a valid route (string, no function or regExp)
+* one for creating new routes through: `DELETE adminUrlPrefix`/routes
+  * the json body request should contain a url (string).
+  `method` is optional (uses the config value, which defaults to `get`)
+
+
+## `adminUrlPrefix`
+
+If hasAdmin is true, then adminUrl defines the API endpoint prefix url.
+Default: `/_admin`.
+
+# Route Configuration
 
 All routes can have the following properties:
 
-* headers: a list of header names/headers values, like `Content-type`...
+* `headers`: a list of header names/headers values, like `Content-type`...
 Note that the default content type header value is application/json.
-* status: http response status code (default: 200)
-* url: the url, in an expressjs string format (no regexp for now)
-* method: http method (default: `get`)
+* `status`: http response status code (default: 200)
+* `url`: the url, in an expressjs string format or a regular expression.
+* `method`: http method (default: `get`)
 
 You can also set the default values for all responses in your config,
-under the `defaults.headers` properties.
+under the `defaults` properties.
 
-The route type is defined by some properties. 
+Each route type uses different properties.
 
-1. if it has a 'string' property, it is a string route,
-2. if it has a 'json' property, it is a json route,
-3. if it has a 'function' property, it is a... guess what?
+* if it has a `string` property, it is a string route.
+  * the `string`property should be a string.
+* if it has a `template` property, it is a template route.
+  * the `template` property should be a string that should be into a hogan.js template. 
+  The template has access to `req`, so `req.params`, `req.body` or req.
+* if it has a `json` property, it is a json route.
+  * the `json` property should be a valid json object.
+* if it has a `function` property, it is a... guess what?
 Yes, a function route.
 
-The order of the list is important: if a route has a `string` and a `function`property
+The order of creation of routes is important: if a route has a `string` and a `function`property
 (who would do that anyway?), fakr assumes that it is a string route.
 
 ## String Route Example
@@ -96,6 +100,7 @@ The order of the list is important: if a route has a `string` and a `function`pr
 ## JSON Route Example
 
 This route forces the Content Type header (relies on expressjs response.json())
+
 ```
 {
   "url": "/api/test-json",
@@ -111,16 +116,35 @@ This route forces the Content Type header (relies on expressjs response.json())
 {
   "url": "/api/test-function/:resource",
   "method": "get",
-  "function": "res.send(req.params.resource)"
+  "function": "function() { return function(req, res, next) {res.send(req.params.resource); }}"
+}
+```
+
+`function` can be a real function or a string to evals to a string.
+It should return a middleware function (params are: req, res, next (optional)).
+
+Why not directly the middleware function? Thanks to closure, you can do things like that:
+
+```
+function() {
+  var nbCalls = 0;
+  return function(req, res /*, next*/) {
+    var text = ++nbCalls < 3 ?
+                'called ' + nbCalls + ' times':
+                'stop, I\'m tired.' +
+                '\nid: ' + req.params.id +
+                '.\ntitle: ' + req.params.id;
+    res.send(text);
+  };
 }
 ```
 
 # TODO
 
 * add tests
-* add regExp url format support (through new RegExp()?)
+* ~~add regExp url format support (through new RegExp()?)~~
 * add CRUD route type
-* add API to control routes dynamically
+* ~~add API to control routes dynamically~~
 * add binary route types (images, pdf...)
 * add an admin UI
 * add a "persistence" layer (no sure there is a usecase for that...)
