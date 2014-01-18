@@ -1,6 +1,30 @@
 {
-  "name": "api-mock",
+  "name": "fakr",
   "version": "0.0.1",
+  "author": "Saad Tazi",
+  "license": "MIT",
+  "description": "'real mock' webserver with dynamically configured routes (though node or restfull-ish API)",
+  "bugs": {
+    "url": "https://github.com/saadtazi/fakr-node/issues"
+  },
+  "main": "lib/index",
+  "directories": {
+    "test": "test",
+    "examples": "examples"
+  },
+  "scripts": {
+  },
+  "keywords": [
+    "routing",
+    "test",
+    "rest",
+    "mock server",
+    "nodejs"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/saadtazi/fakr-node.git"
+  },
   "dependencies": {
     "express": "~3.4.8",
     "mocha": "~1.17.0",
