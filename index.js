@@ -1,34 +1,36 @@
 var express = require('express'),
     _ = require('lodash'),
     adminRoutes = require('./routes/admin'),
-    routeBuilder = require('./model/route_builder');
+    routeBuilder = require('./model/route_builder'),
+    defaultConfig = require('./config/default.js');
 
-module.exports = function(config) {
+module.exports = (function(config) {
   var app = express();
-  config = _.merge(require('./config/default.js'), config || {});
+  config = _.merge(_.clone(defaultConfig), config || {});
 
-  app.fakrRoute = [];
+  app.fakrRoutes = [];
   app.addRoute = function(json) {
     var mergedConfig = _.merge(_.clone(config.defaults), json);
-    console.log('adding route::', mergedConfig.url);
-    app.fakrRoute.push(routeBuilder.add(app, mergedConfig));
+    // console.log('adding route::', mergedConfig.url);
+    routeBuilder.add(app, mergedConfig);
   };
 
   app.removeRoute = function(json) {
     var mergedConfig = _.merge(_.clone(config.defaults), json);
-    console.log('removing route::', mergedConfig.url);
+    // console.log('removing route::', mergedConfig.url);
 
     routeBuilder.remove(app, mergedConfig);
   };
 
-  app.use(express.bodyParser());
+  app.use(express.urlencoded());
+  app.use(express.json());
 
   if (app.get('env') === 'development') {
     // simple logger
-    app.use(function(req, res, next){
-      console.log('%s %s', req.method, req.url);
-      next();
-    });
+    // app.use(function(req, res, next){
+    //   console.log('%s %s', req.method, req.url);
+    //   next();
+    // });
   }
   if (config.routes) {
     _.each(config.routes, function(route) {
@@ -38,9 +40,8 @@ module.exports = function(config) {
   if (config.hasAdmin) {
     adminRoutes.add(app, config.adminUrlPrefix);
   }
-  console.log(app.routes);
   return app;
 
-};
+});
 
 

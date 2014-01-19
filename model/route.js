@@ -1,11 +1,11 @@
 var _ = require('lodash');
 
 
-function getUrl(url) {
+function getUrl(url, isRegExp) {
   if (_.isRegExp(url)) {
     return url;
   }
-  if (_.isString(url)) {
+  if (_.isString(url) && isRegExp) {
     return new RegExp(url);
   }
   return url;
@@ -14,10 +14,12 @@ function getUrl(url) {
 function Route(config, action) {
   this.config   = config;
   this.method   = config.method;
-  this.url      = getUrl(config.url);
+  this.url      = getUrl(config.url, config.isRegExp);
   this.action   = action;
   this.headers  = config.headers || {};
   this.status   = config.status;
+  this.isRegExp = config.isRegExp;
+
 }
 
 Route.getUrl = getUrl;
@@ -37,7 +39,7 @@ Route.prototype.addHeaders = function(req, res, next) {
 
 Route.prototype.toJSON = function() {
   var res = _.clone(this.config);
-  res.url = this.url.source;
+  res.url = this.config.isRegExp ? this.url.source : this.url;
   // not clean... 
   if (this.config.function) {
     res.function = this.config.function.toString();

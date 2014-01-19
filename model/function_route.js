@@ -5,6 +5,7 @@ var _ = require('lodash'),
 
 function getMiddlewareGenerator(func) {
   if (_.isFunction(func)) { return func; }
+  /*jshint evil:true*/
   return eval('(' + func + ')');
 }
 
@@ -15,14 +16,12 @@ module.exports = {
     } catch (e) {
       var error = {};
       error[e.name] = e.message;
-      // throw e;
       return error;
     }
     return true;
   },
   fromJson: function(json) {
     var func = getMiddlewareGenerator(json.function);
-    console.log('middleware::', func());
     return Route.fromConfig(json, func());
   }
 };

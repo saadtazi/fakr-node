@@ -7,6 +7,7 @@ module.exports = {
       "Content-Type": "application/json"
     },
     "status": "200",
-    "method": "get"
+    "method": "get",
+    "isRegExp": true
   }
 };

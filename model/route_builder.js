@@ -42,9 +42,8 @@ function generate(json) {
 }
 
 
-var allRoutes = [];
 function addOne(app, route) {
-  allRoutes.push(route);
+  app.fakrRoutes.push(route);
   app[route.method](route.url, _.bind(route.addHeaders, route), route.action);
 }
 
@@ -53,23 +52,22 @@ function removeOne(app, json) {
     throw new Error('RouteBuilder.remove: json.method and json.url are mandatory');
   }
   app.routes[json.method].forEach(function(route, index) {
-    if (_.isEqual(route.path, Route.getUrl(json.url))) {
+    if (_.isEqual(route.path, Route.getUrl(json.url, json.isRegExp))) {
       app.routes[json.method].splice(index, 1);
     }
   });
-  console.log('before::', allRoutes);
+
   // remove it also from allRoutes
-  allRoutes.forEach(function(route, index) {
-    if (_.isEqual(route.url, Route.getUrl(json.url))) {
-      allRoutes.splice(index, 1);
+  app.fakrRoutes.forEach(function(route, index) {
+    if (_.isEqual(route.url, Route.getUrl(json.url, json.isRegExp))) {
+      app.fakrRoutes.splice(index, 1);
     }
   });
-  console.log('after::', allRoutes);
 }
 
 function add(app, json) {
   var route = generate(json);
-  if (_.isArray(route)) { // crud way!
+  if (_.isArray(route)) { // crud is on its way!
     _.each(route, function(aRoute) {
       addOne(app, aRoute);
     });
@@ -82,13 +80,8 @@ function add(app, json) {
   throw new Error('something wrong happened');
 }
 
-function getRoutes() {
-  return allRoutes;
-}
-
 module.exports = {
   generate: generate,
   add: add,
-  remove: removeOne,
-  getRoutes: getRoutes
+  remove: removeOne
 };
