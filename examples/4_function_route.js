@@ -9,12 +9,12 @@ try {
 var config = {
       defaults: {
         headers: {
-          "Content-Type": "text/plain"
+          'Content-Type': 'text/plain'
         }
       },
       routes: [
-        { "url": "/api/test-function/:id-:title",
-          "function": function() {
+        { url: '/api/test-function/:id-:title',
+          function: function() {
             var nbCalls = 0;
             return function(req, res /*, next*/) {
               var text = ++nbCalls < 3 ?
@@ -25,10 +25,9 @@ var config = {
               res.send(text);
             };
           },
-          "method": "get"
+          method: 'get'
         }
       ]
-
     },
     app = fakr(config);
 
@@ -38,8 +37,8 @@ app.listen(3000, function() {
 
 // add route dynamically
 app.addRoute({
-  "url": "/api/test-function-p(\\d+)",
-  "function": 'function() {' +
+  url: '/api/test-function-p(\\d+)',
+  function: 'function() {' +
               '  var left = 4;' +
               '  return function(req, res /*, next*/) {' +
               '    var text = "";' +

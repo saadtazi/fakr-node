@@ -4,7 +4,9 @@ var express = require('express'),
     routeBuilder = require('./model/route_builder'),
     defaultConfig = require('./config/default.js');
 
-module.exports = (function(config) {
+module.exports = function(config) {
+  'use strict';
+
   var app = express();
   config = _.merge(_.clone(defaultConfig), config || {});
 
@@ -25,13 +27,6 @@ module.exports = (function(config) {
   app.use(express.urlencoded());
   app.use(express.json());
 
-  if (app.get('env') === 'development') {
-    // simple logger
-    // app.use(function(req, res, next){
-    //   console.log('%s %s', req.method, req.url);
-    //   next();
-    // });
-  }
   if (config.routes) {
     _.each(config.routes, function(route) {
       app.addRoute(route);
@@ -42,6 +37,6 @@ module.exports = (function(config) {
   }
   return app;
 
-});
+};
 
 

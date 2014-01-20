@@ -64,7 +64,11 @@ All routes can have the following properties:
 * `headers`: a list of header names/headers values, like `Content-type`...
 Note that the default content type header value is application/json.
 * `status`: http response status code (default: 200)
-* `url`: the url, in an expressjs string format or a regular expression.
+* `url`: the url, accepts regular expressions if isRegExp is `true`, 
+or expressjs url format (`:id...) if it is false).
+* isRegExp: tells fakr if the provided url param (as string) 
+should be converted into a regExp (default: false).
+  * note that it has no effect if it is url a regExp.
 * `method`: http method (default: `get`)
 
 You can also set the default values for all responses in your config,

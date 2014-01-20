@@ -10,11 +10,10 @@ var _ = require('lodash'),
     functionRoute = require('./function_route')
     ;
 
-var routeTypes = {
-      string: stringRoute,
-      template: templateRoute,
-      json: jsonRoute,
-      function: functionRoute,
+var routeTypes = { string: stringRoute,
+                   template: templateRoute,
+                   json: jsonRoute,
+                   function: functionRoute
     },
     types = _.keys(routeTypes);
 

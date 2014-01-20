@@ -1,8 +1,8 @@
 /*global fakr:false,expect:false*/
-var app;
 
-describe('fakr init', function() {
-
+describe('init configuration', function() {
+  'use strict';
+  var app;
   it('should not throw if no config is provided', function(done) {
     function init() {
       app = fakr();
@@ -26,6 +26,7 @@ describe('fakr init', function() {
       supertest(app)
       .get('/_admin/routes')
       .end(function(err, res) {
+        if (err) { done(err); }
         expect(res).to.have.property('status', 200);
         expect(res.headers['content-type']).to.contain('application/json');
         expect(res.body).to.eql({data: []});
@@ -43,6 +44,7 @@ describe('fakr init', function() {
       supertest(app)
         .get('/test-default-config')
         .end(function(err, res) {
+          if (err) { done(err); }
           expect(res).to.have.property('status', 200);
           expect(res.headers['content-type']).to.contain('application/json');
           done();
@@ -60,6 +62,7 @@ describe('fakr init', function() {
       supertest(app)
         .get('/custom-admin/routes')
         .end(function(err, res) {
+          if (err) { done(err); }
           expect(res).to.have.property('status', 200);
           expect(res.headers['content-type']).to.contain('application/json');
 
@@ -69,10 +72,10 @@ describe('fakr init', function() {
         });
     });
 
-    it('should be able disable the admin API', function() {
+    it('should be able to disable the admin API', function() {
       app = fakr({  hasAdmin: false,
                     routes: [{ url: '/test-custom-config',
-                                string: 'test custom config'
+                               string: 'test custom config'
                             }]
       });
       var req = supertest(app);

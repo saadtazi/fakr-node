@@ -8,6 +8,6 @@ module.exports = {
     },
     "status": "200",
     "method": "get",
-    "isRegExp": true
+    "isRegExp": false
   }
 };

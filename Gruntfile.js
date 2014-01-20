@@ -10,7 +10,8 @@ module.exports = function(grunt) {
 
     jshint: {
       options: {
-        ignores: ['node_modules/**'],
+        jshintrc: '.jshintrc',
+        ignores: ['examples/**', 'node_modules/**'],
         globals: { 'feature': false,
                   'it': false
                  }
