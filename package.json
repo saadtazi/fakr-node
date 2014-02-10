@@ -7,7 +7,7 @@
   "bugs": {
     "url": "https://github.com/saadtazi/fakr-node/issues"
   },
-  "main": "lib/index",
+  "main": "index",
   "directories": {
     "test": "test",
     "examples": "examples"
