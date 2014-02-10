@@ -28,7 +28,8 @@
     "express": "~3.4.8",
     "mocha": "~1.17.0",
     "chai": "~1.8.1",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "hogan.js": "~2.0.0"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
