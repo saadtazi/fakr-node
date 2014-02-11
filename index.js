@@ -24,6 +24,16 @@ module.exports = function(config) {
     routeBuilder.remove(app, mergedConfig);
   };
 
+  app.removeAllRoutes = function() {
+    routeBuilder.removeAll(app);
+  };
+
+  app.updateRoute = function(json) {
+    var mergedConfig = _.merge(_.clone(config.defaults), json);
+    routeBuilder.remove(app, mergedConfig);
+    routeBuilder.add(app, mergedConfig);
+  };
+
   app.use(express.urlencoded());
   app.use(express.json());
 

@@ -64,6 +64,19 @@ function removeOne(app, json) {
   });
 }
 
+function removeAll(app) {
+  // remove it from allRoutes
+  app.fakrRoutes.forEach(function(route, index) {
+    // remove it also from express routes list
+    app.routes[route.method].forEach(function(expressRoute, expressIndex) {
+      if (_.isEqual(expressRoute.path, Route.getUrl(route.url, route.isRegExp))) {
+        app.routes[route.method].splice(expressIndex, 1);
+      }
+    });
+    app.fakrRoutes.splice(index, 1);
+  });
+}
+
 function add(app, json) {
   var route = generate(json);
   if (_.isArray(route)) { // crud is on its way!
@@ -82,5 +95,6 @@ function add(app, json) {
 module.exports = {
   generate: generate,
   add: add,
-  remove: removeOne
+  remove: removeOne,
+  removeAll: removeAll
 };

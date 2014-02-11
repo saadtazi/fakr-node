@@ -29,6 +29,32 @@ describe('route creation', function() {
       });
   });
 
+  it('should allow route update at any time', function(done) {
+    var app = fakr();
+    app.addRoute({ url: '/route-creation-anytime',
+                    string: 'route creation anytime'
+                  });
+    supertest(app)
+      .get('/route-creation-anytime')
+      .expect(200)
+      .end(function(err, res) {
+        if (err) { return done(err); }
+        expect(res.text).to.eql('route creation anytime');
+
+        app.updateRoute({ url: '/route-creation-anytime',
+                    string: 'route modified'
+                  });
+        supertest(app)
+          .get('/route-creation-anytime')
+          .expect(200)
+          .end(function(err, res) {
+            if (err) { return done(err); }
+            expect(res.text).to.eql('route modified');
+            done();
+          });
+      });
+  });
+
   it('should allow route creation through the admin API', function(done) {
     var app = fakr();
     supertest(app)

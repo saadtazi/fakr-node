@@ -1,4 +1,5 @@
-var RouteBuilder = require('../model/route_builder');
+var RouteBuilder = require('../model/route_builder'),
+    _ = require('lodash');
 
 module.exports = (function() {
   'use strict';
@@ -9,17 +10,23 @@ module.exports = (function() {
                   return route.toJSON();
                 })});
       });
-
-      app.post(prefix + '/routes', function(req, res) {
+      function updateRoute(req, res) {
         var route = req.body;
         app.removeRoute(route);
         app.addRoute(route);
         res.json(route);
-      });
+      }
+      app.post(prefix + '/routes', updateRoute);
+
+      app.put(prefix + '/routes', updateRoute);
 
       app.del(prefix + '/routes', function(req, res) {
         var route = req.body;
-        app.removeRoute(route);
+        if (_.isEqual(route, {})) {
+          app.removeAllRoutes();
+        } else {
+          app.removeRoute(route);
+        }
         res.json(route);
       });
     }

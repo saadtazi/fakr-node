@@ -1,10 +1,12 @@
 # fakr
 
-(name might change)
-
 Create a dynamic web server that generates static or dynamic responses based on json configuration.
 
-Routes can be added ~soon -> dynamically and~ at startup.
+Routes can be added dynamically through:
+
+* initialization config when fakr starts,
+* fakr.addRoute function if you are in the same scope
+* a restful-ish api.
 
 # Usage
 
@@ -14,6 +16,11 @@ var config = require('config.json'),
 
 fakr.listen(3000, function() {
   console.log('fakr is listening on port 3000');
+});
+// in the same scope, you can add route
+fakr.addRoute({
+  "url": "/api/example/(\\d+)",
+  "json": {data: [1, 2, 3, 4]},
 });
 
 ```
@@ -41,34 +48,36 @@ fakr.listen(3000, function() {
 
 # Config options
 
+## `adminUrlPrefix`
+
+If hasAdmin is true (see below), then adminUrl defines the API endpoint prefix url.
+Default: `/_admin`.
+
 ## `hasAdmin`
 
 If true, adds 3 admin API routes:
-* one for listing routes: `GET adminUrlPrefix`/routes`
-* one for creating new routes: `POST adminUrlPrefix`/routes
-  * the json body should be a valid route (string, no function or regExp)
-* one for creating new routes through: `DELETE adminUrlPrefix`/routes
-  * the json body request should contain a url (string).
+
+* one for listing routes: `GET {{adminUrlPrefix}}/routes`
+* one for creating new routes: `POST {{adminUrlPrefix}}/routes`
+    * the json body should be a valid route (string, no function or regExp)
+* one for deleting new routes through: `DELETE {{adminUrlPrefix}}/routes`
+    * if the json body is not empty: the json body request should contain a url (string).
   `method` is optional (uses the config value, which defaults to `get`)
+    * if the json body is empty: all routes will be removed!!
 
-
-## `adminUrlPrefix`
-
-If hasAdmin is true, then adminUrl defines the API endpoint prefix url.
-Default: `/_admin`.
 
 # Route Configuration
 
 All routes can have the following properties:
 
 * `headers`: a list of header names/headers values, like `Content-type`...
-Note that the default content type header value is application/json.
-* `status`: http response status code (default: 200)
+(default: application/json).
+* `status`: http response status code (default: 200).
 * `url`: the url, accepts regular expressions if isRegExp is `true`, 
-or expressjs url format (`:id...) if it is false).
+or expressjs url format (`/route/:id...) if it is false.
 * isRegExp: tells fakr if the provided url param (as string) 
 should be converted into a regExp (default: false).
-  * note that it has no effect if it is url a regExp.
+  * note that it has no effect if url is a js regExp object.
 * `method`: http method (default: `get`)
 
 You can also set the default values for all responses in your config,
@@ -77,19 +86,22 @@ under the `defaults` properties.
 Each route type uses different properties.
 
 * if it has a `string` property, it is a string route.
-  * the `string`property should be a string.
+    * the `string`property should be a string.
 * if it has a `template` property, it is a template route.
-  * the `template` property should be a string that should be into a hogan.js template. 
+    * the `template` property should be a string that should be into a hogan.js template. 
   The template has access to `req`, so `req.params`, `req.body` or req.
 * if it has a `json` property, it is a json route.
-  * the `json` property should be a valid json object.
+    * the `json` property should be a valid json object.
 * if it has a `function` property, it is a... guess what?
 Yes, a function route.
 
-The order of creation of routes is important: if a route has a `string` and a `function`property
+The order of creation of routes is important: the first matching route is executed.  
+Also, if a route has a `string` and a `function`property
 (who would do that anyway?), fakr assumes that it is a string route.
 
 ## String Route Example
+
+For static response.
 
 ```
 {
@@ -100,6 +112,30 @@ The order of creation of routes is important: if a route has a `string` and a `f
   "status": "200"
 }
 ```
+
+## String Route Example
+
+For templated response, that has access to the request object property. Uses hogan.js (mustache-like)
+
+```
+{ "url": "/api/test-template/:id-:title",
+  "isRegExp": false,
+  "template": "* id is {{req.params.id}}\n" +
+              "* title is {{req.params.title}}\n" +
+              "* q is {{req.query.q}}\n",
+  "method": "get"
+}
+```
+
+When requesting `GET /api/test-template/1-hello?q=yo`, it will respond with:
+
+```
+* id is 1
+* title is hello
+* q is yo
+```
+
+
 
 ## JSON Route Example
 
@@ -145,8 +181,8 @@ function() {
 
 # TODO
 
-* add grunt
-* add tests
+* ~~add grunt~~
+* ~~add tests~~
 * ~~add regExp url format support (through new RegExp()?)~~
 * add CRUD route type
 * ~~add API to control routes dynamically~~
@@ -158,3 +194,14 @@ function() {
 #LICENSE
 
 [MIT](./LICENSE.txt)
+
+#CHANGELOG
+
+## 0.0.4
+
+* added removeAllRoutes and corresponding /_admin/routes DELETE api (with no params!!)
+* add PUT method to update a route
+
+## 0.0.3
+
+* fixed npm main property and hoganjs dependency
