@@ -28,6 +28,31 @@ fakr.addRoute({
   "url": "/api/example/(\\d+)",
   "json": {data: [1, 2, 3, 4]},
 });
+```
+
+You can also extend an existing express app:
+
+```
+var express = require('express'),
+    fakr    = require('fakr'),
+    // config. can be {}
+    config  = require('config.json');
+
+// get an express app
+var app = express();
+app.get(function(req, res) {
+  res.send('original route');
+});
+
+// then augment the app with fakr
+fakr(config, app);
+
+// you can now add routes dynamically
+
+fakr.addRoute({
+  "url": "/api/example/(\\d+)",
+  "json": {data: [1, 2, 3, 4]},
+});
 
 ```
 
@@ -191,6 +216,49 @@ function() {
 }
 ```
 
+# Public API
+
+## fakr(config, app)
+
+`config` is a json configuration, it can be null, defaults to {}.
+
+`app` is optional. If defined, it should be an expressjs app. It will 
+
+## `app.addRoute(json)`
+
+Adds a route defined in `json`(see [Route configuration](#route-configuration))
+
+Note that if `fakr()` was called with an `app` param, then adding a fakr route
+that match exactly a already existing app route will have no effect: the original route will match.
+
+If 2 fakr routes have the same url and method, then the **last** defined route will overwite the first route.
+
+
+## `app.removeRoute(json)`
+
+remove a route defined in `json`. Expected `json.url`.
+`json.method` (or default `method`) is used to find the route that will be deleted.
+
+## `app.removeAllRoutes()`
+
+remove all routes added by fakr.
+
+If `fakr()` was called with an `app` param, then only routes added through `config`, `app.addRoute()`
+or the `admin`api will be deleted.
+
+# Internals
+
+In case you need to debug something...
+
+## app.fakrRoutes
+
+array of fakr routes (added through init config, addRoutes or api calls).
+
+## app.routes
+
+It is not added by fakr library, but it is an express property.
+fakr uses it when removing routes.
+
 # TODO
 
 * ~~add grunt~~
@@ -200,7 +268,6 @@ function() {
 * ~~add API to control routes dynamically~~
 * add binary route types (images, pdf...)
 * add an admin UI
-* add a "persistence" layer (no sure there is a usecase for that...)
 * add way to "prepare the future" (first call: return this once, then this 3 times, or a la sinonjs...)
 
 #LICENSE
