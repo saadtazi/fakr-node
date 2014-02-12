@@ -38,6 +38,20 @@ describe('route removal', function() {
       
   });
 
+  it('should allow to delete all routes at any time', function(done) {
+    app.removeAllRoutes();
+    supertest(app)
+      .get('/route-1')
+      .expect(404)
+      .end(function(err, res) {
+        if (err) { done(err); }
+        supertest(app)
+          .post('/route-2')
+          .expect(404, done);
+      });
+      
+  });
+
   it('should allow to delete a route through the admin API', function(done) {
     var app = fakr();
     supertest(app)

@@ -4,10 +4,13 @@ var express = require('express'),
     routeBuilder = require('./model/route_builder'),
     defaultConfig = require('./config/default.js');
 
-module.exports = function(config) {
+module.exports = function(config, app) {
   'use strict';
-
-  var app = express();
+  if (!app) {
+    app = express();
+    app.use(express.urlencoded());
+    app.use(express.json());
+  }
   config = _.merge(_.clone(defaultConfig), config || {});
 
   app.fakrRoutes = [];
@@ -34,8 +37,7 @@ module.exports = function(config) {
     routeBuilder.add(app, mergedConfig);
   };
 
-  app.use(express.urlencoded());
-  app.use(express.json());
+  
 
   if (config.routes) {
     _.each(config.routes, function(route) {

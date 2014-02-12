@@ -73,8 +73,8 @@ function removeAll(app) {
         app.routes[route.method].splice(expressIndex, 1);
       }
     });
-    app.fakrRoutes.splice(index, 1);
   });
+  app.fakrRoutes = [];
 }
 
 function add(app, json) {

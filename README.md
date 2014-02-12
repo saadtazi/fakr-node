@@ -1,5 +1,11 @@
 # fakr
 
+[![Build Status](https://travis-ci.org/saadtazi/fakr-node.png)](https://travis-ci.org/saadtazi/fakr-node)
+[![Dependency Status](https://david-dm.org/saadtazi/fakr-node.png)](https://david-dm.org/saadtazi/fakr-node)
+
+[![NPM](https://nodei.co/npm/fakr.png)](https://nodei.co/npm/fakr-node/)
+
+
 Create a dynamic web server that generates static or dynamic responses based on json configuration.
 
 Routes can be added dynamically through:
@@ -65,6 +71,12 @@ If true, adds 3 admin API routes:
   `method` is optional (uses the config value, which defaults to `get`)
     * if the json body is empty: all routes will be removed!!
 
+## `routes`
+
+An array of routes that will be available when server starts.
+See below how to configure routes.
+
+Of course, other routes can be added dynamically after the server is started.
 
 # Route Configuration
 
