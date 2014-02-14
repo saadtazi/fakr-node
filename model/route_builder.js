@@ -7,7 +7,8 @@ var _ = require('lodash'),
     stringRoute = require('./string_route'),
     templateRoute = require('./template_route'),
     jsonRoute = require('./json_route'),
-    functionRoute = require('./function_route')
+    functionRoute = require('./function_route'),
+    crudApi = require('./crud_api')
     ;
 
 var routeTypes = { string: stringRoute,
@@ -92,9 +93,24 @@ function add(app, json) {
   throw new Error('something wrong happened');
 }
 
+function addCrud(app, config) {
+  if (!config.name) {
+    throw new Error('addCrud: name is required');
+  }
+  if (app.crudRoutes[config.name]) {
+    throw new Error('addCrud: name already exists');
+  }
+  var routes = crudApi.generate(config);
+  app.crudRoutes[config.name] = routes;
+  routes.forEach(function(route) {
+    app.addRoute(route);
+  });
+}
+
 module.exports = {
   generate: generate,
   add: add,
   remove: removeOne,
-  removeAll: removeAll
+  removeAll: removeAll,
+  addCrud: addCrud
 };

@@ -38,6 +38,12 @@ module.exports = function(config, app) {
   };
 
   
+  app.crudRoutes = [];
+  app.addCrudApi = function(config) {
+    routeBuilder.addCrud(app, config);
+  };
+
+  
 
   if (config.routes) {
     _.each(config.routes, function(route) {
