@@ -50,7 +50,6 @@ describe('crud model', function() {
         modl.add({id: 4, name: 'new object modified'});
 
         var allData = modl.getAll();
-        console.log(_.all(allData, { id: 4} ));
         expect(_.filter(allData, { id: 4} )).to.have.length(1);
         expect(_.find(allData, { id: 4} )).to.have.property('name', 'new object modified');
       });
@@ -97,7 +96,6 @@ describe('crud model', function() {
         modl.update(4, {name: 'new object modified'});
 
         var allData = modl.getAll();
-        console.log(_.all(allData, { id: 4} ));
         expect(_.filter(allData, { id: 4} )).to.have.length(1);
         expect(_.find(allData, { id: 4} )).to.have.property('name', 'new object modified');
       });
