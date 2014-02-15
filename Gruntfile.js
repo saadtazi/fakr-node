@@ -57,7 +57,7 @@ module.exports = function(grunt) {
         options: {
           reporter: 'travis-cov'
         },
-        src: ['lib-cov/test/tasks/**/*.js']
+        src: ['lib-cov/test/spec/**/*.js']
       },
 
       testLocal: {
@@ -124,10 +124,11 @@ module.exports = function(grunt) {
 
 
   grunt.registerTask('travis', [  'jshint',
+                                  'prepare',
                                   'mochaTest:testForCoverage',
                                   'mochaTest:mocha-lcov-reporter',
                                    'mochaTest:travis-cov',
-                                   'coveralls'
+                                   // 'coveralls'
                                 ]);
   grunt.registerTask('default', ['jshint', 'test']);
 
