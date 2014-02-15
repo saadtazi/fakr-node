@@ -78,4 +78,12 @@ describe('route removal', function() {
           .expect(404, done);
       });
   });
+  it('throw if no url is passed', function() {
+    var app = fakr();
+    function invalid() {
+      app.removeRoute({method: 'post'});
+    }
+    expect(invalid).to.throw();
+  });
+  
 });

@@ -3,7 +3,7 @@
 describe('crud model', function() {
   'use strict';
 
-  var Model = require('../../../model/crud_model');
+  var Model = require('../../../lib/model/crud_model');
 
   describe('#constructor', function() {
     it('should allow loading of initial data', function() {
@@ -107,6 +107,14 @@ describe('crud model', function() {
         modl = new Model([], {detectExisting: true});
         function shouldThrow() {
           modl.update(99, {name: 'does not exist'});
+        }
+        expect(shouldThrow).to.throw(Error);
+      });
+
+      it('should throw if no id and strategy unknown', function() {
+        modl = new Model([], {keyStrategy: 'this strategy does not exist'});
+        function shouldThrow() {
+          modl.add({name: 'no id'});
         }
         expect(shouldThrow).to.throw(Error);
       });

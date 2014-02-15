@@ -13,6 +13,23 @@ describe('route creation', function() {
         done();
       });
   });
+  it('should throw if no url property', function() {
+    var app = fakr();
+    function invalid() {
+      app.addRoute({  string: 'route creation anytime'
+                  });
+    }
+    expect(invalid).to.throw();
+  });
+
+  it('should throw if invalid route type or no type', function() {
+    var app = fakr();
+    function invalid() {
+      app.addRoute({  url: '/no-type'
+                  });
+    }
+    expect(invalid).to.throw();
+  });
 
   it('should allow route creation at any time', function(done) {
     var app = fakr();

@@ -1,4 +1,4 @@
-var mock = require('../index')();
+var mock = require('../lib/index')();
 
 mock.addCrudApi({
   name: 'items',
