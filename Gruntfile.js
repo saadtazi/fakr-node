@@ -31,7 +31,7 @@ module.exports = function(grunt) {
       }
     },
     blanket: {
-      tasks: {
+      spec: {
         src: ['lib/'],
         dest: 'lib-cov/lib/'
       }
@@ -128,7 +128,7 @@ module.exports = function(grunt) {
                                   'mochaTest:testForCoverage',
                                   'mochaTest:mocha-lcov-reporter',
                                    'mochaTest:travis-cov',
-                                   // 'coveralls'
+                                   'coveralls'
                                 ]);
   grunt.registerTask('default', ['jshint', 'test']);
 
