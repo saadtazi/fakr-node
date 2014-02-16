@@ -267,7 +267,7 @@ fakr uses it when removing routes.
 * ~~add regExp url format support (through new RegExp()?)~~
 * ~~add CRUD route type~~
 * ~~add API to control routes dynamically~~
-* add binary route types (images, pdf...)
+* add API to control api routes dynamically
 * add an admin UI
 * add way to "prepare the future" (first call: return this once, then this 3 times, or a la sinonjs...)
 
