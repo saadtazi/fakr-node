@@ -68,4 +68,15 @@ describe('function route', function() {
       });
   });
 
+  it('should return an error object if the function string is not valid', function() {
+    var app = fakr();
+    function addInvalidRoute() {
+      var res = app.addRoute({  url: '/invalid-function',
+                                function: 'this is not javascript that can be evaluated'
+                              });
+    }
+    expect(addInvalidRoute).to.throw();
+    
+  });
+
 });

@@ -2,7 +2,7 @@ var fakr;
 try {
   fakr = require('fakr');
 } catch( err ) {
-  fakr = require('../index.js');
+  fakr = require('../lib/index.js');
 }
 
 // initial route

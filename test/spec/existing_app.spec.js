@@ -5,7 +5,7 @@ describe('when using an existing express app', function() {
   'use strict';
 
   var app;
-  
+
   beforeEach(function () {
     app = express();
     app.get('/original-route', function(req, res) {

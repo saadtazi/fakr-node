@@ -11,7 +11,7 @@ module.exports = function(grunt) {
     jshint: {
       options: {
         jshintrc: '.jshintrc',
-        ignores: ['examples/**', 'node_modules/**'],
+        ignores: ['lib-cov/**', 'examples/**', 'node_modules/**'],
         globals: { 'feature': false,
                   'it': false
                  }
@@ -19,27 +19,117 @@ module.exports = function(grunt) {
       all: ['**/*.js']
     },
 
-    watch: {
-      all: {
-        files: ['**/*.js'],
-        tasks: ['jshint', 'mochaTest']
+    clean: {
+      coverage: {
+        src: ['lib-cov/', 'coverage/*.html']
+      }
+    },
+    copy: {
+      test: {
+        src: ['test/**'],
+        dest: 'lib-cov/'
+      }
+    },
+    blanket: {
+      spec: {
+        src: ['lib/'],
+        dest: 'lib-cov/lib/'
       }
     },
 
     mochaTest: {
+      testForCoverage: {
+        options: {
+          reporter: 'spec',
+          require: ['lib-cov/test/globals.js']
+        },
+        src: ['lib-cov/test/spec/**/*.spec.js']
+      },
+      'mocha-lcov-reporter': {
+        options: {
+          reporter: 'mocha-lcov-reporter',
+          quiet: true,
+          captureFile: 'lcov.info'
+        },
+        src: ['lib-cov/test/spec/**/*.js']
+      },
+      'travis-cov': {
+        options: {
+          reporter: 'travis-cov'
+        },
+        src: ['lib-cov/test/spec/**/*.js']
+      },
+
+      testLocal: {
+        options: {
+          reporter: 'spec',
+          require: ['lib-cov/test/globals.js']
+        },
+        src: ['lib-cov/test/spec/**/*.spec.js']
+      },
+      testpure: {
+        options: {
+          reporter: 'spec',
+          require: ['test/globals.js']
+        },
+        src: ['test/spec/**/*.spec.js']
+      },
+      'htmlcov': {
+        options: {
+          reporter: 'html-cov',
+          quiet: true,
+          captureFile: 'lib-cov/coverage.html',
+          require: ['lib-cov/test/globals.js']
+
+        },
+        src: ['lib-cov/test/spec/**/*.js']
+      },
+
+    },
+
+    coveralls: {
       options: {
-        reporter: 'spec',
-        require: 'test/globals.js'
+        force: true
       },
       all: {
-        src: ['test/spec/**/*.spec.js']
+        src: 'lcov.info'
+      }
+    },
+
+    watch: {
+      all: {
+        files: ['**/*.js'],
+        tasks: ['test']
       }
     }
 
+
   });
 
-  grunt.registerTask('test', ['mochaTest']);
-  grunt.registerTask('travis', ['jshint', 'test']);
+  grunt.registerTask('prepare', [ 'clean',
+                                  'copy',
+                                  'blanket'
+                                ]);
+
+  grunt.registerTask('test', [ 'jshint',
+                               'mochaTest:testpure'
+                              ]);
+
+  grunt.registerTask('default', 'test');
+
+  grunt.registerTask('cov', [ 'prepare',
+                              'mochaTest:testLocal',
+                              'mochaTest:htmlcov'
+                            ]);
+
+
+  grunt.registerTask('travis', [  'jshint',
+                                  'prepare',
+                                  'mochaTest:testForCoverage',
+                                  'mochaTest:mocha-lcov-reporter',
+                                   'mochaTest:travis-cov',
+                                   'coveralls'
+                                ]);
   grunt.registerTask('default', ['jshint', 'test']);
 
 };

@@ -1,20 +1,20 @@
 {
   "name": "fakr",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "author": "Saad Tazi",
   "license": "MIT",
   "description": "'real mock' webserver with dynamically configured routes (though node or restfull-ish API)",
   "bugs": {
     "url": "https://github.com/saadtazi/fakr-node/issues"
   },
-  "main": "index",
+  "main": "lib/index",
   "directories": {
     "test": "test",
     "examples": "examples"
   },
   "scripts": {
-    "test": "grunt mochaTest"
-    },
+    "test": "grunt test"
+  },
   "keywords": [
     "routing",
     "test",
@@ -29,7 +29,8 @@
   "dependencies": {
     "express": "~3.4.8",
     "lodash": "~2.4.1",
-    "hogan.js": "~2.0.0"
+    "hogan.js": "~2.0.0",
+    "node-uuid": "~1.4.1"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
@@ -39,6 +40,12 @@
     "chai": "~1.9",
     "supertest": "~0.9.0",
     "grunt-mocha-test": "~0.9",
-    "request": "~2.33.0"
+    "request": "~2.33.0",
+    "mocha-lcov-reporter": "0.0.1",
+    "grunt-coveralls": "~0.3.0",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-blanket": "0.0.8",
+    "grunt-contrib-copy": "~0.5.0",
+    "travis-cov": "~0.2.5"
   }
 }

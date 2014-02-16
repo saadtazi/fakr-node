@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/saadtazi/fakr-node.png)](https://travis-ci.org/saadtazi/fakr-node)
 [![Dependency Status](https://david-dm.org/saadtazi/fakr-node.png)](https://david-dm.org/saadtazi/fakr-node)
+[![Coverage Status](https://coveralls.io/repos/saadtazi/fakr-node/badge.png)](https://coveralls.io/r/saadtazi/fakr-node)
 
 [![NPM](https://nodei.co/npm/fakr.png)](https://nodei.co/npm/fakr-node/)
 
@@ -264,7 +265,7 @@ fakr uses it when removing routes.
 * ~~add grunt~~
 * ~~add tests~~
 * ~~add regExp url format support (through new RegExp()?)~~
-* add CRUD route type
+* ~~add CRUD route type~~
 * ~~add API to control routes dynamically~~
 * add binary route types (images, pdf...)
 * add an admin UI
@@ -275,6 +276,14 @@ fakr uses it when removing routes.
 [MIT](./LICENSE.txt)
 
 #CHANGELOG
+
+## 0.1.0
+
+* added crud api routes (add and delete)
+
+## 0.0.5
+
+* fakr can extend existing express app by adding addRoutes, admin api...
 
 ## 0.0.4
 
