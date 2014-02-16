@@ -2,8 +2,7 @@
 
 [![Build Status](https://travis-ci.org/saadtazi/fakr-node.png)](https://travis-ci.org/saadtazi/fakr-node)
 [![Dependency Status](https://david-dm.org/saadtazi/fakr-node.png)](https://david-dm.org/saadtazi/fakr-node)
-[![Coverage Status](https://coveralls.io/repos/saadtazi/fakr-node/badge.png)](https://coveralls.io/r/saadtazi/fakr-node)
-
+[![Coverage Status](https://coveralls.io/repos/saadtazi/fakr-node/badge.png?branch=master)](https://coveralls.io/r/saadtazi/fakr-node?branch=master)
 [![NPM](https://nodei.co/npm/fakr.png)](https://nodei.co/npm/fakr-node/)
 
 
