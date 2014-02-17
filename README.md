@@ -12,6 +12,7 @@ Routes can be added dynamically through:
 
 * initialization config when fakr starts,
 * fakr.addRoute function if you are in the same scope
+* fakr.addCrudApi function to generate CRUD REST-ish api routes automatically
 * a restful-ish api.
 
 # Usage
@@ -86,29 +87,37 @@ Default: `/_admin`.
 
 ## `hasAdmin`
 
-If true, adds 3 admin API routes:
+If true, adds the following admin API routes:
 
-* one for listing routes: `GET {{adminUrlPrefix}}/routes`
-* one for creating new routes: `POST {{adminUrlPrefix}}/routes`
-    * the json body should be a valid route (string, no function or regExp)
-* one for deleting new routes through: `DELETE {{adminUrlPrefix}}/routes`
-    * if the json body is not empty: the json body request should contain a url (string).
+* for managing routes:
+    * one for listing routes: `GET {{adminUrlPrefix}}/routes`
+    * one for creating new routes: `POST {{adminUrlPrefix}}/routes`
+        * the json body should be a valid route
+    * one for modifying a route: `PUT {{adminUrlPrefix}}/routes`
+        * the json body should be a valid route
+    * one for deleting routes through: `DELETE {{adminUrlPrefix}}/routes`
+        * if the json body is not empty: the json body request should contain a url (string).
   `method` is optional (uses the config value, which defaults to `get`)
-    * if the json body is empty: all routes will be removed!!
+        * if the json body is empty: all routes will be removed!!
+* for managing CRUD api routes:
+    * one for listing all CRUD api routes: `GET {{adminUrlPrefix}}/api-routes`
+    * one for getting one CRUD api route info: `GET {{adminUrlPrefix}}/api-routes/{{route-name}}`
+    * one for creating new CRUD api routes: `POST {{adminUrlPrefix}}/api-routes`
+    * one for deleting CRUD api routes through: `DELETE {{adminUrlPrefix}}/routes`
 
 ## `routes`
 
 An array of routes that will be available when server starts.
 See below how to configure routes.
 
-Of course, other routes can be added dynamically after the server is started.
+Other routes can be added dynamically after the server is started.
 
 # Route Configuration
 
 All routes can have the following properties:
 
 * `headers`: a list of header names/headers values, like `Content-type`...
-(default: application/json).
+(default: {"content-type": "application/json"}).
 * `status`: http response status code (default: 200).
 * `url`: the url, accepts regular expressions if isRegExp is `true`, 
 or expressjs url format (`/route/:id...) if it is false.
@@ -216,6 +225,130 @@ function() {
 }
 ```
 
+# CRUD API Routes
+
+You can also add CRUD routes using the fakr.addCrudApi() or the admin api url.
+
+you need to provide a `name`, which is the name of the entity you want to manage.
+It will generate by default 5 routes per entity:
+
+* `find` url: defaults to `GET /{{entity-name}}` which lists all entity instances
+* `get` url: defaults to `GET /{{entity-name}}/{{ID}}` which returns one entity instance
+* `add` url: defaults to `POST /{{entity-name}}`.
+    * expects a json in the request body.
+* `remove` url: defaults to `DELETE /{{entity-name}}/{{ID}}`
+* `update` url: defaults to `PUT /{{entity-name}}/{{ID}}`
+    * expects a json in the request body.
+
+
+**All the data are kept in memory and is lost when you stop the express app**.
+
+## CRUD API Configuration
+
+To create new CRUD API, the minimum configuration is:
+
+```
+{ "name": "entities" }
+
+// Generates the following urls:
+// GET    /entities
+// GET    /entities/ID
+// POST   /entities
+// DELETE /entities/ID
+// PUT /entities/ID
+
+//
+```
+
+But you have control on a lot of things if you need. Here is the default configuration:
+
+```
+{
+  model: {
+    config: { idKey: 'id',
+              keyStrategy: 'autoIncrement',  // other strategy: 'guid'
+              // if true, it will throw if you try to:
+              // * add an existing id
+              // * delete a non-existing id
+              // * update a non-existing id
+              detectExisting: false
+            },
+    initData: []  // an array of entities (POJO)
+  },
+  urlBase: '/{{name}}',
+  routes: {
+    find: {
+      // each route should be a valid route as described in `route configuration` section,
+      // except for the funtion url that should follow the structure below 
+      // (a function with param status and model that returns a function 
+      // that returns a function with params request et reponse... yeah... I know...)
+      method: 'get',
+      url: '{{urlbase}}',
+      function: function(status, model) {
+        return function() {
+          return function(req, res) {
+            res.json(status, {data: model.getAll()});
+          };
+        };
+      }
+    },
+    get: {
+      method: 'get',
+      url: '{{urlbase}}/:id',
+      function: function(status, model) {
+        return function() {
+          return function(req, res) {
+            var item = model.findById(req.params.id);
+            if (item === undefined) {
+              return res.json(404, {});
+            }
+            res.json(status, model.findById(req.params.id));
+          };
+        };
+      }
+    },
+    add: {
+      method: 'post',
+      url: '{{urlbase}}',
+      status: 201,
+      function: function(status, model) {
+        return function() {
+          return function(req, res) {
+            res.json(status, {data: model.add(req.body) });
+          };
+        };
+      }
+    },
+    remove: {
+      method: 'delete',
+      url: '{{urlbase}}/:id',
+      function: function(status, model) {
+        return function() {
+          return function(req, res) {
+            res.json(status, {data: model.remove(req.params.id) });
+          };
+        };
+      }
+    },
+    update: {
+      method: 'put',
+      url: '{{urlbase}}/:id',
+      function: function(status, model) {
+        return function() {
+          return function(req, res) {
+            res.json(status, {data: model.update(req.params.id, req.body) });
+          };
+        };
+      }
+    }
+  }
+  }
+```
+
+In the url properties, `{{urlbase}}` and `{{name}}` are replaced by the `name` and `urlBase`.
+
+If you don't want one of the 5 generated urls, just assign `false`to the corresponding route in the config. 
+
 # Public API
 
 ## fakr(config, app)
@@ -246,6 +379,15 @@ remove all routes added by fakr.
 If `fakr()` was called with an `app` param, then only routes added through `config`, `app.addRoute()`
 or the `admin`api will be deleted.
 
+## app.addCrudApi(config)
+
+Adds CRUD API routes. config should contain a `name` property.
+See above the **CRUD API Configuration**.
+
+## app.removeCrudApi(name)
+
+Removes CRUD API routes.
+
 # Internals
 
 In case you need to debug something...
@@ -254,10 +396,14 @@ In case you need to debug something...
 
 array of fakr routes (added through init config, addRoutes or api calls).
 
+## app.fakrCrudRoutes
+
+list of CRUD API routes. the key is the `name` of the CRUD API routes.
+
 ## app.routes
 
 It is not added by fakr library, but it is an express property.
-fakr uses it when removing routes.
+fakr uses it when removing routes. Helpful to debug.
 
 # TODO
 
@@ -266,7 +412,7 @@ fakr uses it when removing routes.
 * ~~add regExp url format support (through new RegExp()?)~~
 * ~~add CRUD route type~~
 * ~~add API to control routes dynamically~~
-* add API to control api routes dynamically
+* ~~add API to control api routes dynamically~~
 * add an admin UI
 * add way to "prepare the future" (first call: return this once, then this 3 times, or a la sinonjs...)
 
@@ -278,7 +424,7 @@ fakr uses it when removing routes.
 
 ## 0.1.0
 
-* added crud api routes (add and delete)
+* added crud api routes (list, get, add and delete)
 
 ## 0.0.5
 
