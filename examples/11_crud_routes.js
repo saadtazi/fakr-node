@@ -6,7 +6,6 @@ mock.addCrudApi({
   routes: {
     create : false, // to prevent create route (POST /urlBase)
     get: {
-      // method: 'delete'
       url: '/api/has/moved/HERE/:id'
     }
   },
@@ -15,11 +14,11 @@ mock.addCrudApi({
                 { miaw: 'bouh'   }],
     config: {
       keyStrategy: 'autoIncrement',  // it is default. (also available: "guid")
-      idKey: '_id'          // defaults to 'id'
+      idKey: '_id'                   // defaults to 'id'
     }
   }
 });
-console.log(mock.routes);
+// console.log(mock.routes);
 mock.listen(3000);
 
 // GET    http://127.0.0.1:3000/api/is/here/items
