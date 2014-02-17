@@ -4,7 +4,7 @@
 [![Dependency Status](https://david-dm.org/saadtazi/fakr-node.png)](https://david-dm.org/saadtazi/fakr-node)
 [![Coverage Status](https://coveralls.io/repos/saadtazi/fakr-node/badge.png?branch=master)](https://coveralls.io/r/saadtazi/fakr-node?branch=master)
 
-[![NPM](https://nodei.co/npm/fakr.png)](https://nodei.co/npm/fakr-node/)
+[![NPM](https://nodei.co/npm/fakr.png)](https://nodei.co/npm/fakr/)
 
 
 Create a dynamic web server that generates static or dynamic responses based on json configuration.
