@@ -423,6 +423,10 @@ fakr uses it when removing routes. Helpful to debug.
 
 #CHANGELOG
 
+## 0.1.1
+
+* added simple request logger (to console)
+
 ## 0.1.0
 
 * added crud api routes (list, get, add and delete)
