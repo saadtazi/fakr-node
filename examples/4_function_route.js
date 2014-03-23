@@ -5,7 +5,7 @@ try {
   fakr = require('../lib/index.js');
 }
 
-// initial route
+// initial routes
 var config = {
       defaults: {
         headers: {
@@ -38,6 +38,7 @@ app.listen(3000, function() {
 // add route dynamically
 app.addRoute({
   url: '/api/test-function-p(\\d+)',
+  isRegExp: true,
   function: 'function() {' +
               '  var left = 4;' +
               '  return function(req, res /*, next*/) {' +

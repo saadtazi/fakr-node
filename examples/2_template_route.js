@@ -7,22 +7,22 @@ try {
 
 // initial route
 var config = {
-      defaults: {
-        headers: {
-          "Content-Type": "text/plain"
-        }
-      },
-      routes: [
-        { "url": "/api/test-template/:id-:title",
-          "isRegExp": false,
-          "template": "* id is {{req.params.id}}\n" +
-                      "* title is {{req.params.title}}\n" +
-                      "* q is {{req.query.q}}\n",
-          "method": "get"
-        }
-      ]
+  defaults: {
+    headers: {
+      'Content-Type': 'text/plain'
+    }
+  },
+  routes: [
+    { url:      '/api/test-template/:id-:title',
+      isRegExp: false,
+      template: '* id is {{req.params.id}}\n' +
+                  '* title is {{req.params.title}}\n' +
+                  '* q is {{req.query.q}}\n',
+      method: 'get'
+    }
+  ]
 
-    },
+},
     app = fakr(config);
 
 app.listen(3000, function() {
@@ -32,6 +32,7 @@ app.listen(3000, function() {
 // add route dynamically
 app.addRoute({
   "url": "/api/test-template2-p(\\d+)-c(\\w+)",
+  isRegExp: true,
   "template": "param 0 is {{{req.params.0}}} // param 1 is {{{req.params.1}}} // ",
 });
 console.log(app.routes);

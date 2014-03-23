@@ -1,6 +1,6 @@
 {
   "name": "fakr",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Saad Tazi",
   "license": "MIT",
   "description": "'real mock' webserver with dynamically configured routes (though node or restfull-ish API)",

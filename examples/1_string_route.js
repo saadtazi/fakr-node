@@ -26,12 +26,14 @@ app.listen(3000, function() {
 
 // add route dynamically
 app.addRoute({
-  "url": "/api/test-string-2-(.*)",
-  "string": "this is another string",
+  url: '/api/test-string-2-(.*)',
+  isRegExp: true,
+  string: "this is another string",
 });
 
 app.addRoute({
   "url": /\/api\/test-string-reg-(.*)/,
+  isRegExp: true,
   "string": "this is yet another string",
 });
 

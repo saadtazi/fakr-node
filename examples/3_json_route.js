@@ -27,6 +27,7 @@ app.listen(3000, function() {
 // add route dynamically
 app.addRoute({
   "url": "/api/test-json2/(\\d+)",
+  isRegExp: true,
   "json": {data: [1, 2, 3, 4]},
 });
 
