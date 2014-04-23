@@ -11,6 +11,7 @@ var config = {
         { "url": "/api/test-string-1",
           "string": "this is a string",
           "method": "get",
+          "shouldStoreRequests": true,
           "headers": {
             "Content-Type": "text/plain"
           }
@@ -33,8 +34,10 @@ app.addRoute({
 
 app.addRoute({
   "url": /\/api\/test-string-reg-(.*)/,
-  isRegExp: true,
-  "string": "this is yet another string",
+  "isRegExp": true,
+  "method": "post",
+  shouldStoreRequests: true,
+  string: 'this is yet another string'
 });
 
 // add route through api
@@ -47,4 +50,8 @@ app.addRoute({
 // * open:
 //   * http://localhost:3000/api/test-string-1
 //   * http://127.0.0.1:3000/api/test-string-2-ANYTHING
-//   * http://localhost:3000/api/test-string-reg-WHATEVER
+//   * POST http://localhost:3000/api/test-string-reg-WHATEVER
+
+// to get previous requests:
+// * http://localhost:3000/_admin/routes/requests?url=%2Fapi%2Ftest-string-1&isRegExp=false&method=get
+// * http://localhost:3000/_admin/routes/requests?url=%5C%2Fapi%5C%2Ftest-string-reg-(.*)&isRegExp=true&method=post
