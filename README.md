@@ -32,7 +32,7 @@ fakr.addRoute({
 });
 ```
 
-You can also extend an existing express app:
+You can also extend an existing express 3.x app:
 
 ```
 var express = require('express'),
@@ -57,6 +57,8 @@ fakr.addRoute({
 });
 
 ```
+
+Note that this feature does not work yet with express 4.
 
 # Configuration
 
@@ -100,6 +102,13 @@ If true, adds the following admin API routes:
         * if the json body is not empty: the json body request should contain a url (string).
   `method` is optional (uses the config value, which defaults to `get`)
         * if the json body is empty: all routes will be removed!!
+* for getting previous requests when `storeRequests` is set to `true`:
+    * one for getting the previous requests: `GET {{adminUrlPrefix}}/routes`
+        * the query string should represent a valid route (url, method are mandatory, isRegExp optional)
+
+    * one for resetting the previously stored requests: `DELETE {{adminUrlPrefix}}/routes` 
+        * the json body should be a valid route
+
 * for managing CRUD api routes:
     * one for listing all CRUD api routes: `GET {{adminUrlPrefix}}/api-routes`
     * one for getting one CRUD api route info: `GET {{adminUrlPrefix}}/api-routes/{{route-name}}`
