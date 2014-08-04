@@ -89,14 +89,4 @@ describe('Previous Requests admin routes (_admin/routes/requests)', function() {
         });
     });
   });
-  describe('ddd', function() {
-
-    beforeEach(function() {
-      console.log(this.test);
-    });
-    it.only('test', function() {
-      throw new Error('buurrn');
-    });
-    
-  });
 });
