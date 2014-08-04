@@ -212,7 +212,7 @@ This route forces the Content Type header (relies on expressjs response.json())
 {
   "url": "/api/test-function/:resource",
   "method": "get",
-  "function": "function() { return function(req, res, next) {res.send(req.params.resource); }}"
+  "function": "function(route) { return function(req, res, next) {res.send(req.params.resource); }}"
 }
 ```
 
@@ -222,7 +222,7 @@ It should return a middleware function (params are: req, res, next (optional)).
 Why not directly the middleware function? Thanks to closure, you can do things like that:
 
 ```
-function() {
+function(route) {
   var nbCalls = 0;
   return function(req, res /*, next*/) {
     var text = ++nbCalls < 3 ?
@@ -234,6 +234,9 @@ function() {
   };
 }
 ```
+
+You can also have access to the json route definition using `route`, and add extra parameter to the `route`definition
+and access them in the function. 
 
 # CRUD API Routes
 
@@ -431,6 +434,10 @@ fakr uses it when removing routes. Helpful to debug.
 [MIT](./LICENSE.txt)
 
 #CHANGELOG
+
+## 0.1.4
+
+* added access to `route` (json) in function route
 
 ## 0.1.1
 
