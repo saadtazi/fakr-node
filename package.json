@@ -1,6 +1,6 @@
 {
   "name": "fakr",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "author": "Saad Tazi",
   "license": "MIT",
   "description": "'real mock' webserver with dynamically configured routes (though node or restfull-ish API)",
@@ -27,10 +27,12 @@
     "url": "git://github.com/saadtazi/fakr-node.git"
   },
   "dependencies": {
-    "express": "~3.4.8",
+    "express": "~4.8.3",
     "lodash": "~2.4.1",
     "hogan.js": "~2.0.0",
-    "node-uuid": "~1.4.1"
+    "node-uuid": "~1.4.1",
+    "body-parser": "~1.6.3",
+    "morgan": "~1.2.2"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

@@ -105,7 +105,8 @@ describe('route creation', function() {
                   },
                   { url: '/route-creationg-delete',
                     string: 'route creation delete',
-                    method: 'del'
+                    method: 'delete',
+                    supertestMethod: 'del'
                   },
                   { url: '/route-creationg-put',
                     string: 'route creation put',
@@ -121,7 +122,7 @@ describe('route creation', function() {
         success = 0,
         nbTests = routes.length;
     routes.forEach(function(route) {
-      supertest(app)[route.method](route.url)
+      supertest(app)[route.supertestMethod || route.method](route.url)
       .expect(route.status || 200)
       .end(function(err, res) {
         testsDone++;
