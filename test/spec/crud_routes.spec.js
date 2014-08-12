@@ -69,7 +69,7 @@ describe('Crud Api Routes', function() {
               function: function(status, model) {
                 return function() {
                   return function(req, res) {
-                    res.send(203, {result: 'coucou'});
+                    res.status(203).send({result: 'coucou'});
                   };
                 };
               }

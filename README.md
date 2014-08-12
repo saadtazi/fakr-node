@@ -32,7 +32,7 @@ fakr.addRoute({
 });
 ```
 
-You can also extend an existing express 3.x app:
+You can also extend an existing express 4.x app (since fakr 0.3 - use version 0.2.x for express 3):
 
 ```
 var express = require('express'),
