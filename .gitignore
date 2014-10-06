@@ -1,3 +1,5 @@
+.DS_Store
+
 coverage/coverage.html
 node_modules
 lib-cov/
