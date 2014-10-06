@@ -435,6 +435,18 @@ fakr uses it when removing routes. Helpful to debug.
 
 #CHANGELOG
 
+## 0.2.2
+
+* upgraded packages
+
+## 0.2.1
+
+* upgraded packages
+
+## 0.2.0
+
+* upgraded to express 4
+
 ## 0.1.4
 
 * added access to `route` (json) in function route
