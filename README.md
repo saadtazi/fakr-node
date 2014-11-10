@@ -435,6 +435,10 @@ fakr uses it when removing routes. Helpful to debug.
 
 #CHANGELOG
 
+## 0.2.4
+
+* upgraded packages
+
 ## 0.2.3
 
 * upgraded packages
