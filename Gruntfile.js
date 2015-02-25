@@ -26,7 +26,9 @@ module.exports = function(grunt) {
     },
     copy: {
       test: {
-        src: ['test/**/*.*'],
+        expand: true,
+        filter: 'isFile',
+        src: ['test/**'],
         dest: 'lib-cov/'
       }
     },
@@ -49,15 +51,15 @@ module.exports = function(grunt) {
         options: {
           reporter: 'mocha-lcov-reporter',
           quiet: true,
-          captureFile: 'lcov.info'
+          captureFile: './lib-cov/lcov.info'
         },
-        src: ['lib-cov/test/spec/**/*.js']
+        src: ['lib-cov/test/spec/**/*.spec.js']
       },
       'travis-cov': {
         options: {
           reporter: 'travis-cov'
         },
-        src: ['lib-cov/test/spec/**/*.js']
+        src: ['lib-cov/test/spec/**/*.spec.js']
       },
 
       testLocal: {
@@ -92,7 +94,7 @@ module.exports = function(grunt) {
         force: true
       },
       all: {
-        src: 'lcov.info'
+        src: './lib-cov/lcov.info'
       }
     },
 
