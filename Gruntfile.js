@@ -21,12 +21,12 @@ module.exports = function(grunt) {
 
     clean: {
       coverage: {
-        src: ['lib-cov/', 'coverage/*.html']
+        src: ['lib-cov/*', 'lib-cov/!.gitkeep', 'coverage/*.html']
       }
     },
     copy: {
       test: {
-        src: ['test/**'],
+        src: ['test/**/*.*'],
         dest: 'lib-cov/'
       }
     },
