@@ -1,6 +1,6 @@
 {
   "name": "fakr",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "author": "Saad Tazi",
   "license": "MIT",
   "description": "'real mock' webserver with dynamically configured routes (though node or restfull-ish API)",
@@ -27,15 +27,15 @@
     "url": "git://github.com/saadtazi/fakr-node.git"
   },
   "dependencies": {
-    "body-parser": "~1.12.0",
+    "body-parser": "~1.13.1",
     "express": "~4.12.0",
     "hogan.js": "~3.0.2",
-    "lodash": "~3.3.1",
+    "lodash": "~3.9.3",
     "node-uuid": "~1.4.1",
-    "morgan": "~1.5.0"
+    "morgan": "~1.6.0"
   },
   "devDependencies": {
-    "chai": "~2.1.0",
+    "chai": "~3.0.0",
     "grunt": "~0.4.2",
     "grunt-blanket": "0.0.8",
     "grunt-contrib-clean": "~0.6.0",
@@ -45,9 +45,9 @@
     "grunt-coveralls": "~1.0.0",
     "grunt-mocha-test": "~0.12.1",
     "matchdep": "~0.3.0",
-    "mocha-lcov-reporter": "0.0.1",
-    "request": "~2.53.0",
-    "supertest": "~0.15.0",
+    "mocha-lcov-reporter": "0.0.2",
+    "request": "~2.58.0",
+    "supertest": "~1.0.1",
     "travis-cov": "~0.2.5"
   }
 }
