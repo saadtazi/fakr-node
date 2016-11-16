@@ -71,7 +71,7 @@ Note that this feature does not work yet with express 4.
       "status": 201,
       "headers": {
         "Expires": "Fri, 17 Jan 2014 05:25:28 GMT",
-        "X-Frame-Options": "SAMEORIGIN" 
+        "X-Frame-Options": "SAMEORIGIN"
       }
     ]
   },
@@ -106,7 +106,7 @@ If true, adds the following admin API routes:
     * one for getting the previous requests: `GET {{adminUrlPrefix}}/routes`
         * the query string should represent a valid route (url, method are mandatory, isRegExp optional)
 
-    * one for resetting the previously stored requests: `DELETE {{adminUrlPrefix}}/routes` 
+    * one for resetting the previously stored requests: `DELETE {{adminUrlPrefix}}/routes`
         * the json body should be a valid route
 
 * for managing CRUD api routes:
@@ -129,9 +129,9 @@ All routes can have the following properties:
 * `headers`: a list of header names/headers values, like `Content-type`...
 (default: {"content-type": "application/json"}).
 * `status`: http response status code (default: 200).
-* `url`: the url, accepts regular expressions if isRegExp is `true`, 
+* `url`: the url, accepts regular expressions if isRegExp is `true`,
 or expressjs url format (`/route/:id...) if it is false.
-* isRegExp: tells fakr if the provided url param (as string) 
+* isRegExp: tells fakr if the provided url param (as string)
 should be converted into a regExp (default: false).
   * note that it has no effect if url is a js regExp object.
 * `method`: http method (default: `get`)
@@ -144,7 +144,7 @@ Each route type uses different properties.
 * if it has a `string` property, it is a string route.
     * the `string`property should be a string.
 * if it has a `template` property, it is a template route.
-    * the `template` property should be a string that should be into a hogan.js template. 
+    * the `template` property should be a string that should be into a hogan.js template.
   The template has access to `req`, so `req.params`, `req.body` or req.
 * if it has a `json` property, it is a json route.
     * the `json` property should be a valid json object.
@@ -236,7 +236,7 @@ function(route) {
 ```
 
 You can also have access to the json route definition using `route`, and add extra parameter to the `route`definition
-and access them in the function. 
+and access them in the function.
 
 # CRUD API Routes
 
@@ -292,8 +292,8 @@ But you have control on a lot of things if you need. Here is the default configu
   routes: {
     find: {
       // each route should be a valid route as described in `route configuration` section,
-      // except for the funtion url that should follow the structure below 
-      // (a function with param status and model that returns a function 
+      // except for the funtion url that should follow the structure below
+      // (a function with param status and model that returns a function
       // that returns a function with params request et reponse... yeah... I know...)
       method: 'get',
       url: '{{urlbase}}',
@@ -360,7 +360,7 @@ But you have control on a lot of things if you need. Here is the default configu
 
 In the url properties, `{{urlbase}}` and `{{name}}` are replaced by the `name` and `urlBase`.
 
-If you don't want one of the 5 generated urls, just assign `false`to the corresponding route in the config. 
+If you don't want one of the 5 generated urls, just assign `false`to the corresponding route in the config.
 
 # Public API
 
@@ -368,7 +368,7 @@ If you don't want one of the 5 generated urls, just assign `false`to the corresp
 
 `config` is a json configuration, it can be null, defaults to {}.
 
-`app` is optional. If defined, it should be an expressjs app. It will 
+`app` is optional. If defined, it should be an expressjs app. It will
 
 ## `app.addRoute(json)`
 
@@ -434,6 +434,10 @@ fakr uses it when removing routes. Helpful to debug.
 [MIT](./LICENSE.txt)
 
 #CHANGELOG
+
+## 0.2.5, 0.2.6, 0.2.7
+
+* upgraded packages
 
 ## 0.2.4
 

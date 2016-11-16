@@ -119,6 +119,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', 'test');
 
+  // run `npm run cov instead!!`
   grunt.registerTask('cov', [ 'prepare',
                               'mochaTest:testLocal',
                               'mochaTest:htmlcov'

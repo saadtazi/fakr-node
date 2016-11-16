@@ -1,6 +1,6 @@
 {
   "name": "fakr",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "author": "Saad Tazi",
   "license": "MIT",
   "description": "'real mock' webserver with dynamically configured routes (though node or restfull-ish API)",
@@ -13,7 +13,8 @@
     "examples": "examples"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "cov": "./node_modules/.bin/nyc ./node_modules/.bin/mocha --recursive test"
   },
   "keywords": [
     "routing",
@@ -27,27 +28,29 @@
     "url": "git://github.com/saadtazi/fakr-node.git"
   },
   "dependencies": {
-    "body-parser": "~1.13.1",
-    "express": "~4.12.0",
+    "body-parser": "~1.15.2",
+    "express": "~4.14.0",
     "hogan.js": "~3.0.2",
-    "lodash": "~3.9.3",
-    "node-uuid": "~1.4.1",
-    "morgan": "~1.6.0"
+    "lodash": "~4.17.1",
+    "node-uuid": "~1.4.7",
+    "morgan": "~1.7.0"
   },
   "devDependencies": {
-    "chai": "~3.0.0",
-    "grunt": "~0.4.2",
+    "chai": "~3.5.0",
+    "grunt": "^1.0.1",
     "grunt-blanket": "0.0.8",
-    "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-clean": "~1.0.0",
     "grunt-contrib-copy": "~0.8.0",
-    "grunt-contrib-jshint": "~0.11.0",
-    "grunt-contrib-watch": "~0.6.1",
-    "grunt-coveralls": "~1.0.0",
-    "grunt-mocha-test": "~0.12.1",
-    "matchdep": "~0.3.0",
-    "mocha-lcov-reporter": "0.0.2",
-    "request": "~2.58.0",
-    "supertest": "~1.0.1",
+    "grunt-contrib-jshint": "~1.0.0",
+    "grunt-contrib-watch": "~1.0.0",
+    "grunt-coveralls": "~1.0.1",
+    "grunt-mocha-test": "~0.13.2",
+    "matchdep": "~1.0.1",
+    "mocha": "^3.1.2",
+    "mocha-lcov-reporter": "1.2.0",
+    "nyc": "^9.0.1",
+    "request": "~2.78.0",
+    "supertest": "~2.0.1",
     "travis-cov": "~0.2.5"
   }
 }
