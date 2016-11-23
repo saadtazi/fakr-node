@@ -32,8 +32,8 @@
     "express": "~4.14.0",
     "hogan.js": "~3.0.2",
     "lodash": "~4.17.1",
-    "node-uuid": "~1.4.7",
-    "morgan": "~1.7.0"
+    "morgan": "~1.7.0",
+    "uuid": "^3.0.0"
   },
   "devDependencies": {
     "chai": "~3.5.0",
